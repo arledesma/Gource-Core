@@ -29,6 +29,7 @@
 #define STRINGHASH_H
 
 #include <string>
+#include <vector>
 
 #include "vectors.h"
 
@@ -39,5 +40,7 @@ vec3 vec3Hash(const std::string& str);
 vec3 colourHash(const std::string& str);
 
 extern int gStringHashSeed;
+extern std::vector<vec3> gColourPalette;
+extern float gColourSpread;
 
 #endif
