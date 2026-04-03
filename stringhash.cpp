@@ -30,7 +30,7 @@
 #include <algorithm>
 
 int gStringHashSeed = 31;
-std::vector<vec3> gColourPalette;
+std::vector<vec4> gColourPalette;
 float gColourSpread = 0.5f;
 
 static float hueToRgb(float p, float q, float t) {
@@ -117,14 +117,14 @@ vec3 vec3Hash(const std::string& str) {
     return v;
 }
 
-vec3 colourHash(const std::string& str) {
+vec4 colourHash(const std::string& str) {
     int hash = stringHash(str);
 
     if(hash == 0) hash++;
 
     if(!gColourPalette.empty()) {
-        vec3 base = gColourPalette[hash % gColourPalette.size()];
-        vec3 hsl = rgbToHsl(base);
+        vec4 base = gColourPalette[hash % gColourPalette.size()];
+        vec3 hsl = rgbToHsl(vec3(base.x, base.y, base.z));
 
         float sShift = (((hash / 7) % 200) - 100) / 100.0f * gColourSpread * 0.4f;
         float lShift = (((hash / 3) % 200) - 100) / 100.0f * gColourSpread * 0.3f;
@@ -132,10 +132,10 @@ vec3 colourHash(const std::string& str) {
         hsl.y = std::min(std::max(hsl.y + sShift, 0.0f), 1.0f);
         hsl.z = std::min(std::max(hsl.z + lShift, 0.1f), 0.9f);
 
-        return hslToRgb(hsl);
+        return vec4(hslToRgb(hsl), base.w);
     }
 
-    if(str.empty()) return vec3(1.0f, 1.0f, 1.0f);
+    if(str.empty()) return vec4(1.0f, 1.0f, 1.0f, 1.0f);
 
     int r = (hash/7) % 255;
     int g = (hash/3) % 255;
@@ -143,5 +143,5 @@ vec3 colourHash(const std::string& str) {
 
     vec3 colour = normalise(vec3(r, g, b));
 
-    return colour;
+    return vec4(colour, 1.0f);
 }

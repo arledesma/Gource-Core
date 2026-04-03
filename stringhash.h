@@ -37,10 +37,10 @@
 int stringHash(const std::string& str);
 vec2 vec2Hash(const std::string& str);
 vec3 vec3Hash(const std::string& str);
-vec3 colourHash(const std::string& str);
+vec4 colourHash(const std::string& str);
 
 extern int gStringHashSeed;
-extern std::vector<vec3> gColourPalette;
+extern std::vector<vec4> gColourPalette;
 extern float gColourSpread;
 
 #endif
